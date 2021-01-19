@@ -35,6 +35,36 @@ export class NgxPrintDirective {
   @Input() printDelay: number = 0;
 
   /**
+   * Page margin left, default unit:mm
+   * @memberof NgxPrintDirective
+   */
+  @Input() pageMarginLeft: number = null;
+
+  /**
+   * Page margin right, default unit:mm
+   * @memberof NgxPrintDirective
+   */
+  @Input() pageMarginRight: number = null;
+
+  /**
+   * Page margin top, default unit:mm
+   * @memberof NgxPrintDirective
+   */
+  @Input() pageMarginTop: number = null;
+
+  /**
+   * Page margin bottom, default unit:mm
+   * @memberof NgxPrintDirective
+   */
+  @Input() pageMarginBottom: number = null;
+
+  /**
+   * Page margin bottom, default unit:mm
+   * @memberof NgxPrintDirective
+   */
+  @Input() pageMarginUnit: string = null;
+
+  /**
    *
    *
    * @memberof NgxPrintDirective
@@ -60,8 +90,19 @@ export class NgxPrintDirective {
  * @memberof NgxPrintDirective
  */
 public returnStyleValues() {
-  return `<style> ${this._printStyle.join(' ').replace(/,/g,';')} </style>`;
-  }
+  let pageUnit =this.pageMarginUnit==null?"mm":this.pageMarginUnit;
+  let pageStyles = [];
+  if(this.pageMarginLeft)
+    pageStyles.push("margin-left:" + this.pageMarginLeft + pageUnit + ";")
+  if(this.pageMarginRight)
+    pageStyles.push("margin-right:" + this.pageMarginRight + pageUnit + ";")
+  if(this.pageMarginTop)
+    pageStyles.push("margin-top:" + this.pageMarginTop + pageUnit + ";")
+  if(this.pageMarginBottom)
+    pageStyles.push("margin-bottom:" + this.pageMarginBottom + pageUnit + ";")
+
+  return `<style>@page{ ${pageStyles.join(' ')} }</style>` + `<style> ${this._printStyle.join(' ').replace(/,/g,';')} </style>`;
+}
 
   /**
    *
@@ -110,7 +151,7 @@ public returnStyleValues() {
 
   /**
    * @returns html section to be printed along with some associated inputs
-   * 
+   *
    */
   private getHtmlContents() {
     let printContents = document.getElementById(this.printSectionId);
