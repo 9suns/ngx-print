@@ -23,7 +23,10 @@
       ],
       "ngx-print/*": [
         "dist/ngx-print/*"
-      ]
+      ],
+	  "@angular/*": [
+		"node_modules/@angular/*"
+	  ]
     }
   }
 }
